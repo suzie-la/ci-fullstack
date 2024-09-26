@@ -12,7 +12,6 @@ on:
 #Use a matrix strategy to use Node.js versions 16.x and 18.x
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -21,24 +20,30 @@ jobs:
 
     steps:
       # Check out the code from the repository.
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       # Set up a Node.js environment using the specified node version.
-      - uses: actions/setup-node@v3
+      - name: set up node.js
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
 
       # Install the dependencies.
-      - run: cd backend && npm ci
+      - name: install dependencies
+        run: cd backend && npm ci
 
       # Run the tests.
-      - run: cd backend && npm test
+      - name: run tests
+        run: cd backend && npm test
 
       # Run the linter.
-      - run: cd backend && npm run lint
+      - name: run the linter
+        run: cd backend && npm run lint
 
       # Send a console message at completion.
-      - run: |
+      - name: completion message
+        run: |
           echo "Hello ${{github.actor}}. You pushed to ${{github.repository}} at $(date)."
 
         
